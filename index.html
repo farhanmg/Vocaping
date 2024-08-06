@@ -7,54 +7,56 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="Vocab">
-      <div class="word"></div>
-      <div class="definition"></div>
-      <div class="lol">
-        <ul class="sentences">
-          <li class="Sentence1"></li>
-          <li class="Sentence2"></li>
-          <li class="Sentence3"></li>
-          <li class="Sentence4"></li>
-          <li class="Sentence5"></li>
-        </ul>
+    <div class="typing-background">
+      <div class="app">
+        <div class="vocab-section">
+          <div class="word"></div>
+          <div class="definition"></div>
+          <div class="sentences">
+            <ul>
+              <li class="Sentence1"></li>
+              <li class="Sentence2"></li>
+              <li class="Sentence3"></li>
+              <li class="Sentence4"></li>
+              <li class="Sentence5"></li>
+            </ul>
+          </div>
+        </div>
+        <div class="typing-section">
+          <div class="heading">Speed Typing Challenge</div>
+          <div class="stats">
+            <div class="stat-item wpm">
+              <div class="stat-label">WPM</div>
+              <div class="stat-value curr_wpm">0</div>
+            </div>
+            <div class="stat-item cpm">
+              <div class="stat-label">CPM</div>
+              <div class="stat-value curr_cpm">0</div>
+            </div>
+            <div class="stat-item errors">
+              <div class="stat-label">Errors</div>
+              <div class="stat-value curr_errors">0</div>
+            </div>
+            <div class="stat-item timer">
+              <div class="stat-label">Time</div>
+              <div class="stat-value curr_time">60s</div>
+            </div>
+            <div class="stat-item accuracy">
+              <div class="stat-label">% Accuracy</div>
+              <div class="stat-value curr_accuracy">100</div>
+            </div>
+          </div>
+          <div class="quote">Click on the area below to start the game.</div>
+          <textarea
+            class="input_area"
+            placeholder="Start typing here..."
+            oninput="processCurrentText()"
+            onfocus="startGame()"
+          ></textarea>
+          <button class="restart_btn" onclick="resetValues()">Restart</button>
+        </div>
       </div>
-    
     </div>
-    <div class="container"></div>
-      <div class="heading">Simple Speed Typing</div>
-      <div class="header">
-        <div class="wpm">
-          <div class="header_text">WPM</div>
-          <div class="curr_wpm">0</div>
-        </div>
-        <div class="cpm">
-          <div class="header_text">CPM</div>
-          <div class="curr_cpm">0</div>
-        </div>
-        <div class="errors">
-          <div class="header_text">Errors</div>
-          <div class="curr_errors">0</div>
-        </div>
-        <div class="timer">
-          <div class="header_text">Time</div>
-          <div class="curr_time">60s</div>
-        </div>
-        <div class="accuracy">
-          <div class="header_text">% Accuracy</div>
-          <div class="curr_accuracy">100</div>
-        </div>
-      </div>
-      <div class="quote">Click on the area below to start the game.</div>
-      <textarea
-        class="input_area"
-        placeholder="start typing here..."
-        oninput="processCurrentText()"
-        onfocus="startGame()"
-      >
-      </textarea>
-      <button class="restart_btn" onclick="resetValues()">Restart</button>
-    </div>
+    <script src="main.js"></script>
   </body>
-  <script src="main.js"></script>
 </html>
