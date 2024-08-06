@@ -6,7 +6,7 @@ const word1 = ["Ebullient", "Cheerful and full of energy.",
         "The children were ebullient after hearing about the surprise trip to the zoo.",
         "Despite the challenges, her ebullient spirit never wavered."
     ]
-]
+];
 const word2 = ["Cognizant", "Having knowledge or awareness.",
     [
         "He was fully cognizant of the risks involved in the project.",
@@ -15,7 +15,7 @@ const word2 = ["Cognizant", "Having knowledge or awareness.",
         "She remained cognizant of the deadline as she worked on the report.",
         "The committee was cognizant of the need for transparency in their decisions."
     ]
-]
+];
 const word3 = ["Ineffable", "Too great or extreme to be expressed in words.",
     [
         "The beauty of the sunset over the mountains was simply ineffable.",
@@ -24,8 +24,8 @@ const word3 = ["Ineffable", "Too great or extreme to be expressed in words.",
         "She felt an ineffable connection to the place she called home.",
         "The ineffable sorrow of losing a loved one is hard to describe."
     ]
-]
-const word4 = ["Sanguine","Optimistic or positive, especially in a difficult situation.",
+];
+const word4 = ["Sanguine", "Optimistic or positive, especially in a difficult situation.",
     [
         "Despite the economic downturn, he remained sanguine about the future.",
         "Her sanguine outlook helped her navigate through tough times.",
@@ -33,7 +33,7 @@ const word4 = ["Sanguine","Optimistic or positive, especially in a difficult sit
         "He gave a sanguine speech, inspiring confidence in his audience.",
         "Even in the face of adversity, she kept a sanguine attitude."
     ]
-]
+];
 const word5 = ["Ephemeral", "Lasting for a very short time.",
     [
         "The beauty of the cherry blossoms is ephemeral, lasting only a few weeks.",
@@ -42,18 +42,17 @@ const word5 = ["Ephemeral", "Lasting for a very short time.",
         "The joy from winning the lottery proved to be ephemeral.",
         "She cherished the ephemeral moments of happiness in her daily life."
     ]
-]
+];
 
 const words = [word1, word2, word3, word4, word5];
 
-
-const wordName = document.querySelector(".word")
-const definition = document.querySelector(".definition")
-const sentence1 = document.querySelector(".Sentence1")
-const sentence2 = document.querySelector(".Sentence2")
-const sentence3 = document.querySelector(".Sentence3")
-const sentence4 = document.querySelector(".Sentence4")
-const sentence5 = document.querySelector(".Sentence5")
+const wordName = document.querySelector(".word");
+const definition = document.querySelector(".definition");
+const sentence1 = document.querySelector(".Sentence1");
+const sentence2 = document.querySelector(".Sentence2");
+const sentence3 = document.querySelector(".Sentence3");
+const sentence4 = document.querySelector(".Sentence4");
+const sentence5 = document.querySelector(".Sentence5");
 
 function displayWord(word) {
     wordName.innerHTML = word[0];
@@ -65,21 +64,8 @@ function displayWord(word) {
     sentence5.innerHTML = word[2][4];
 }
 
-function showWordOfTheDay() {
-    const today = new Date();
-    const day = today.getDate();
-    const index = (day - 1) % words.length;
-    displayWord(words[index]);
-
-     // Total 5
-    // day ex: 24 -> 24%5 => 4
-    
-}
-
-showWordOfTheDay();
-
 let TIME_LIMIT = 60;
-let quotes_array = words.flatMap(word => word[2]);
+let quotes_array = [];
 let timer_text = document.querySelector(".curr_time");
 let accuracy_text = document.querySelector(".curr_accuracy");
 let error_text = document.querySelector(".curr_errors");
@@ -116,27 +102,22 @@ input_area.addEventListener('paste', (e) => {
     e.preventDefault();
 });
 
-
 function updateQuote() {
     current_quote = quotes_array[quoteNo];
 
-    const quoteContainer = document.createElement('div');
-    quoteContainer.classList.add('quoteContainer');
+    quote_text.innerHTML = ""; // Clear previous quote
 
     current_quote.split('').forEach(char => {
         const charSpan = document.createElement('span');
         charSpan.innerText = char;
-        quoteContainer.appendChild(charSpan);
+        quote_text.appendChild(charSpan);
     });
-
-    quote_text.appendChild(quoteContainer);
 
     if (quoteNo < quotes_array.length - 1)
         quoteNo++;
     else
         quoteNo = 0;
 }
-
 
 function processCurrentText() {
     const curr_input = input_area.value;
@@ -145,9 +126,7 @@ function processCurrentText() {
     characterTyped++;
     errors = 0;
 
-    const quoteContainers = quote_text.querySelectorAll('.quoteContainer');
-    const currentQuoteContainer = quoteContainers[quoteContainers.length - 1];
-    const quoteSpanArray = currentQuoteContainer.querySelectorAll('span');
+    const quoteSpanArray = quote_text.querySelectorAll('span');
 
     quoteSpanArray.forEach((char, index) => {
         let typedChar = curr_input_array[index];
@@ -184,11 +163,9 @@ function processCurrentText() {
     }
 }
 
-
-
 function startGame() {
     resetValues();
-    updateQuote();
+    showRandomWord();  // Change word and update quotes when the game starts
     clearInterval(timer);
     timer = setInterval(updateTimer, 1000);
 }
@@ -207,7 +184,6 @@ function resetValues() {
     accuracy_text.textContent = 100;
     timer_text.textContent = timeLeft + 's';
     error_text.textContent = 0;
-    // restart_btn.style.display = "none";
 }
 
 function updateTimer() {
@@ -226,7 +202,6 @@ function updateTimer() {
     }
 }
 
-
 function finishGame() {
     clearInterval(timer);
     input_area.disabled = true;
@@ -239,6 +214,18 @@ function finishGame() {
     wpm_text.textContent = wpm;
     cpm_group.style.display = "block";
     wpm_group.style.display = "block";
+    error_group.style.display = "block";
+    accuracy_group.style.display = "block";
 }
 
-showWordOfTheDay();
+function showRandomWord() {
+    const index = Math.floor(Math.random() * words.length);
+    const selectedWord = words[index];
+    displayWord(selectedWord);
+    quotes_array = selectedWord[2];  // Set quotes_array to the current word's sentences
+    updateQuote();  // Update the quote display
+}
+
+restart_btn.addEventListener('click', startGame);
+input_area.addEventListener('input', processCurrentText);
+showRandomWord();
