@@ -25,17 +25,13 @@ body {
 
 .definition {
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 2rem;
     text-align: center;
     margin: 8px;
 }
 
 .sentences {
-    font-size: 1rem;
-}
-
-.sentences li {
-    margin: 8px 0;
+    font-size: 1.5rem;
 }
 
 .container {
@@ -104,7 +100,7 @@ body {
 }
 
 .restart_btn {
-    display: none;
+    /* display: none; */
     background-color: #326765;
     font-size: 1rem;
     padding: 10px;

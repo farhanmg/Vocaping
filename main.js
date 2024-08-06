@@ -104,14 +104,18 @@ let quoteNo = 0;
 let timer = null;
 
 function updateQuote() {
-    quote_text.textContent = null;
     current_quote = quotes_array[quoteNo];
 
+    const quoteContainer = document.createElement('div');
+    quoteContainer.classList.add('quoteContainer');
+
     current_quote.split('').forEach(char => {
-        const charSpan = document.createElement('span')
-        charSpan.innerText = char
-        quote_text.appendChild(charSpan)
-    })
+        const charSpan = document.createElement('span');
+        charSpan.innerText = char;
+        quoteContainer.appendChild(charSpan);
+    });
+
+    quote_text.appendChild(quoteContainer);
 
     if (quoteNo < quotes_array.length - 1)
         quoteNo++;
@@ -119,16 +123,20 @@ function updateQuote() {
         quoteNo = 0;
 }
 
+
 function processCurrentText() {
-    curr_input = input_area.value;
-    curr_input_array = curr_input.split('');
+    const curr_input = input_area.value;
+    const curr_input_array = curr_input.split('');
 
     characterTyped++;
     errors = 0;
 
-    quoteSpanArray = quote_text.querySelectorAll('span');
+    const quoteContainers = quote_text.querySelectorAll('.quoteContainer');
+    const currentQuoteContainer = quoteContainers[quoteContainers.length - 1];
+    const quoteSpanArray = currentQuoteContainer.querySelectorAll('span');
+
     quoteSpanArray.forEach((char, index) => {
-        let typedChar = curr_input_array[index]
+        let typedChar = curr_input_array[index];
 
         if (typedChar == null) {
             char.classList.remove('correct_char');
@@ -149,12 +157,15 @@ function processCurrentText() {
     let accuracyVal = ((correctCharacters / characterTyped) * 100);
     accuracy_text.textContent = Math.round(accuracyVal);
 
+    // If the current input length matches the current quote length
     if (curr_input.length == current_quote.length) {
-        updateQuote();
-        total_errors += errors;
+        // Do not clear the input area, just reset the input for the next quote
         input_area.value = "";
+        total_errors += errors;
+        updateQuote();
     }
 }
+
 
 function startGame() {
     resetValues();
@@ -177,9 +188,7 @@ function resetValues() {
     accuracy_text.textContent = 100;
     timer_text.textContent = timeLeft + 's';
     error_text.textContent = 0;
-    restart_btn.style.display = "none";
-    cpm_group.style.display = "none";
-    wpm_group.style.display = "none";
+    // restart_btn.style.display = "none";
 }
 
 function updateTimer() {
