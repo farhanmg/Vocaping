@@ -106,7 +106,7 @@ let timer = null;
 // Prevent copy, cut, and paste in the input area
 input_area.addEventListener('copy', (e) => {
     e.preventDefault();
-});
+})
 
 input_area.addEventListener('cut', (e) => {
     e.preventDefault();

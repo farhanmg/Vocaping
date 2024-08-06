@@ -23,15 +23,15 @@ body {
     box-shadow: black 5px 8px 5px;
 }
 
+.sentences {
+    font-size: 1.5rem;
+}
+
 .definition {
     font-weight: bold;
     font-size: 2rem;
     text-align: center;
     margin: 8px;
-}
-
-.sentences {
-    font-size: 1.5rem;
 }
 
 .container {
