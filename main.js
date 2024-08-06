@@ -103,6 +103,20 @@ let current_quote = "";
 let quoteNo = 0;
 let timer = null;
 
+// Prevent copy, cut, and paste in the input area
+input_area.addEventListener('copy', (e) => {
+    e.preventDefault();
+});
+
+input_area.addEventListener('cut', (e) => {
+    e.preventDefault();
+});
+
+input_area.addEventListener('paste', (e) => {
+    e.preventDefault();
+});
+
+
 function updateQuote() {
     current_quote = quotes_array[quoteNo];
 
@@ -157,14 +171,19 @@ function processCurrentText() {
     let accuracyVal = ((correctCharacters / characterTyped) * 100);
     accuracy_text.textContent = Math.round(accuracyVal);
 
-    // If the current input length matches the current quote length
+    // Update WPM and CPM
+    let cpm = Math.round((characterTyped / timeElapsed) * 60);
+    let wpm = Math.round(((characterTyped / 5) / timeElapsed) * 60);
+    cpm_text.textContent = cpm;
+    wpm_text.textContent = wpm;
+
     if (curr_input.length == current_quote.length) {
-        // Do not clear the input area, just reset the input for the next quote
         input_area.value = "";
         total_errors += errors;
         updateQuote();
     }
 }
+
 
 
 function startGame() {
@@ -196,18 +215,26 @@ function updateTimer() {
         timeLeft--;
         timeElapsed++;
         timer_text.textContent = timeLeft + "s";
+
+        // Update WPM and CPM
+        let cpm = Math.round((characterTyped / timeElapsed) * 60);
+        let wpm = Math.round(((characterTyped / 5) / timeElapsed) * 60);
+        cpm_text.textContent = cpm;
+        wpm_text.textContent = wpm;
     } else {
         finishGame();
     }
 }
+
 
 function finishGame() {
     clearInterval(timer);
     input_area.disabled = true;
     quote_text.textContent = "Click on restart to start a new game.";
     restart_btn.style.display = "block";
-    cpm = Math.round(((characterTyped / timeElapsed) * 60));
-    wpm = Math.round((((characterTyped / 5) / timeElapsed) * 60));
+
+    let cpm = Math.round((characterTyped / timeElapsed) * 60);
+    let wpm = Math.round(((characterTyped / 5) / timeElapsed) * 60);
     cpm_text.textContent = cpm;
     wpm_text.textContent = wpm;
     cpm_group.style.display = "block";
